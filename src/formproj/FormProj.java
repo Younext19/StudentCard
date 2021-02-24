@@ -6,9 +6,9 @@ import java.io.File;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.*; 
-
 import java.util.Random;
+import javax.swing.*; 
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JFileChooser;
 
 public class FormProj extends JFrame implements ActionListener{
@@ -17,6 +17,7 @@ public class FormProj extends JFrame implements ActionListener{
     ImageIcon icon;
      JFrame c; 
      	private JFrame f = new JFrame("Login");
+    JFileChooser chooser;
 
      JLabel title; 
      JLabel name;   
@@ -26,6 +27,8 @@ public class FormProj extends JFrame implements ActionListener{
      JLabel gender; 
      JLabel matricule; 
      JLabel randomNumber; 
+     JTextField YEAR; 
+JFileChooser j = new JFileChooser(new File("C:\\Users\\Dams\\")); 
 
      JRadioButton male; 
      JRadioButton female; 
@@ -37,15 +40,22 @@ public class FormProj extends JFrame implements ActionListener{
      JLabel add; 
           JLabel matriculeNum; 
      JLabel YearOfStudies;
-     JTextArea tadd; 
+     JTextField tadd; 
      JCheckBox term; 
      JButton sub; 
      JButton reset; 
      JTextArea tout; 
      JLabel res; 
      JTextArea resadd; 
+     JLabel DDN;
+     JLabel NAME;
+     JLabel SURNAME;
+     JLabel FILIERE;
+     JLabel FACULTY;
+     JLabel ANNEE;
+     JLabel IMAGE;
   Image backgroundImage;
-  
+  JLabel img;
       JButton Button ;
           JLabel Text;
 
@@ -66,7 +76,11 @@ public class FormProj extends JFrame implements ActionListener{
             "1999", "2000", "2001" }; 
         static JLabel l; 
 
-    
+    String no = "haddam";
+                String pre = "younes";
+                String Fil= "MI";
+                String FAC = "UNIV MOSTA INFORMATIQUE";
+                String an = "2020/2021";
         
     public FormProj()
     {
@@ -76,7 +90,7 @@ public class FormProj extends JFrame implements ActionListener{
         c.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
 
          
-        
+                  
         setTitle("Inscription"); 
         setBounds(300, 90, 900, 700); 
         setDefaultCloseOperation(EXIT_ON_CLOSE); 
@@ -84,10 +98,37 @@ public class FormProj extends JFrame implements ActionListener{
         
         c.setLayout(null); 
         Button = new JButton("Browse");
-        Button.setBounds(100,40,100,100);
+        Button.setBounds(100,20,100,20);
         c.add(Button); 
         
-       
+        img = new JLabel();
+                img.setBounds(100,40,100,100);
+        c.add(img); 
+
+       Button.addActionListener(new ActionListener() {
+
+        public void actionPerformed(ActionEvent e) {
+        
+          JFileChooser file = new JFileChooser();
+          //filter the files
+          FileNameExtensionFilter filter = new FileNameExtensionFilter("*.Images", ".jpg","gif",".png");
+          file.addChoosableFileFilter(filter);
+          int result = file.showSaveDialog(null);
+           //if the user click on save in Jfilechooser
+          if(result == JFileChooser.APPROVE_OPTION){
+              File selectedFile = file.getSelectedFile();
+              String path = selectedFile.getAbsolutePath();
+              img.setIcon(ResizeImage(path));
+              IMAGE.setIcon(ResizeImage(path));
+          }
+           //if the user click on save in Jfilechooser
+
+
+          else if(result == JFileChooser.CANCEL_OPTION){
+              System.out.println("No File Select");
+          }
+        }
+    });
 		
 	
 
@@ -191,11 +232,11 @@ public class FormProj extends JFrame implements ActionListener{
         c.add(add); 
         
   
-        tadd = new JTextArea(); 
+        
+        tadd = new JTextField(); 
         tadd.setFont(new Font("Arial", Font.PLAIN, 15)); 
-        tadd.setSize(190, 40); 
+        tadd.setSize(150, 20); 
         tadd.setLocation(200, 400); 
-        tadd.setLineWrap(true); 
         c.add(tadd); 
         
         YearOfStudies = new JLabel("Année"); 
@@ -203,6 +244,12 @@ public class FormProj extends JFrame implements ActionListener{
         YearOfStudies.setSize(200, 20); 
         YearOfStudies.setLocation(100, 450); 
         c.add(YearOfStudies); 
+        
+        YEAR = new JTextField(); 
+        YEAR.setFont(new Font("Arial", Font.PLAIN, 15)); 
+        YEAR.setSize(150, 20); 
+        YEAR.setLocation(200, 450); 
+        c.add(YEAR); 
         
   
         term = new JCheckBox("Accepter les conditions"); 
@@ -226,13 +273,7 @@ public class FormProj extends JFrame implements ActionListener{
         reset.addActionListener(this);
         c.add(reset); 
   
-        tout = new JTextArea(); 
-        tout.setFont(new Font("Arial", Font.PLAIN, 15)); 
-        tout.setSize(300,200);
-        tout.setLocation(500, 100); 
-        tout.setLineWrap(true); 
-        tout.setEditable(false); 
-        c.add(tout); 
+        
   
         res = new JLabel(""); 
         res.setFont(new Font("Arial", Font.PLAIN, 20)); 
@@ -241,14 +282,9 @@ public class FormProj extends JFrame implements ActionListener{
         c.add(res); 
   
         
-        resadd = new JTextArea(); 
-        resadd.setFont(new Font("Arial", Font.PLAIN, 15)); 
-        resadd.setSize(200, 75); 
-        resadd.setLocation(580, 175); 
-        resadd.setLineWrap(true); 
-        c.add(resadd); 
+        
   // sets 500 width and 600 height 
-        c.setSize(900, 700); 
+        c.setSize(700, 700); 
           
         // uses no layout managers 
         c.setLayout(null); 
@@ -256,20 +292,61 @@ public class FormProj extends JFrame implements ActionListener{
         // makes the frame visible 
         c.setVisible(true); 
         //f.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		f.getContentPane().add(Button);
 		
-		Button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ae) {
-				f.dispose();
-			}
-		});
-		f.setSize(600,800);
-		f.setVisible(false);
-                
-                
+        f.setSize(450,350);
+        f.setLayout(null);
+        f.setVisible(true);
+        f.setBackground(Color.RED);
+        
+        NAME = new JLabel("Nom : "+no); 
+        NAME.setFont(new Font("Arial", Font.PLAIN, 20)); 
+        NAME.setSize(200, 20);
+        NAME.setLocation(50, 50); 
+        f.add(NAME); 
+        
+        SURNAME = new JLabel("Prénom : "+pre); 
+        SURNAME.setFont(new Font("Arial", Font.PLAIN, 20)); 
+        SURNAME.setSize(200, 20);
+        SURNAME.setLocation(50, 80); 
+        f.add(SURNAME);
+        
+        FILIERE = new JLabel("Filière : "+Fil); 
+        FILIERE.setFont(new Font("Arial", Font.PLAIN, 20)); 
+        FILIERE.setSize(200, 20);
+        FILIERE.setLocation(50, 110); 
+        f.add(FILIERE);
+        
+        FACULTY = new JLabel("Faculté : "+FAC); 
+        FACULTY.setFont(new Font("Arial", Font.PLAIN, 20)); 
+        FACULTY.setSize(200, 20);
+        FACULTY.setLocation(50, 140); 
+        f.add(FACULTY);
+        
+        
+        ANNEE = new JLabel("ANNEE : "+an); 
+        ANNEE.setFont(new Font("Arial", Font.PLAIN, 20)); 
+        ANNEE.setSize(200, 20);
+        ANNEE.setLocation(50, 170); 
+        f.add(ANNEE);
+        DDN = new JLabel("23/04/2001"); 
+        DDN.setFont(new Font("Arial", Font.PLAIN, 20)); 
+        DDN.setSize(200, 20); 
+        DDN.setLocation(50, 200); 
+        f.add(DDN);
+        
+        IMAGE = new JLabel();
+        IMAGE.setBounds(300,40,100,100);
+        f.add(IMAGE); 
         // ON F WORK ON THE CARD STUDENT
     }
-    
+    public ImageIcon ResizeImage(String ImagePath)
+    {
+        ImageIcon MyImage = new ImageIcon(ImagePath);
+        Image img2 = MyImage.getImage();
+        Image newImg = img2.getScaledInstance(img.getWidth(), img.getHeight(), Image.SCALE_SMOOTH);
+        ImageIcon image = new ImageIcon(newImg);
+        return image;
+    }
     public static void main(String[] args) {
         // TODO code application logic here
         // create a frame 
@@ -280,9 +357,24 @@ public class FormProj extends JFrame implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        c.setVisible(false);
+                f.setVisible(false);
+
         f.setVisible(true);
-        /*if (e.getSource() == sub) { 
+        NAME.setText("Nom : "+tname.getText());
+        SURNAME.setText("Prénom : "+tmno.getText());
+        if (male.isSelected()) 
+                    FILIERE.setText("Filière : Math Info") ;
+        else
+            FILIERE.setText("Filière : Science M") ;
+                            
+        DDN.setText(""
+                      + (String)date.getSelectedItem() 
+                      + "/" + (String)month.getSelectedItem() 
+                      + "/" + (String)year.getSelectedItem() 
+                      + "\n" );
+        FACULTY.setText("Faculté : " + tadd.getText());
+        ANNEE.setText("Année : "+ YEAR.getText());
+        if (e.getSource() == sub) { 
             if (term.isSelected()) { 
                 String data1; 
         Random num = new Random();
@@ -316,7 +408,7 @@ public class FormProj extends JFrame implements ActionListener{
                 resadd.setText(""); 
                 res.setText("Please accept the"
                             + " terms & conditions.."); 
-            } 
+            }
         } 
   
         else if (e.getSource() == reset) { 
@@ -331,7 +423,7 @@ public class FormProj extends JFrame implements ActionListener{
             month.setSelectedIndex(0); 
             year.setSelectedIndex(0); 
             resadd.setText(def); 
-        }   */
+        }   
     }
     
 }
