@@ -15,7 +15,9 @@ public class FormProj extends JFrame implements ActionListener{
 
    // Components of the Form 
     ImageIcon icon;
-     Container c; 
+     JFrame c; 
+     	private JFrame f = new JFrame("Login");
+
      JLabel title; 
      JLabel name;   
      JTextField tname; 
@@ -70,7 +72,9 @@ public class FormProj extends JFrame implements ActionListener{
     {
         
         // HNA NDIR BUTTONA EYA ON PRESS NLANCé HAD FONCTION
-        
+                c=new JFrame("first way"); 
+        c.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+
          
         
         setTitle("Inscription"); 
@@ -78,38 +82,14 @@ public class FormProj extends JFrame implements ActionListener{
         setDefaultCloseOperation(EXIT_ON_CLOSE); 
         setResizable(false); 
         
-        c = getContentPane(); 
         c.setLayout(null); 
         Button = new JButton("Browse");
         Button.setBounds(100,40,100,100);
         c.add(Button); 
-            
-        Button.addActionListener(new ActionListener() {
-
-        public void actionPerformed(ActionEvent e) {
-
-          JFileChooser file = new JFileChooser();
-          file.setCurrentDirectory(new File(System.getProperty("Users/dams")));
-          //filter the files
-          FileNameExtensionFilter filter = new FileNameExtensionFilter("*.Images", "jpg","gif","png");
-          file.addChoosableFileFilter(filter);
-          int result = file.showSaveDialog(null);
-           //if the user click on save in Jfilechooser
-          if(result == JFileChooser.APPROVE_OPTION){
-              File selectedFile = file.getSelectedFile();
-              String path = selectedFile.getAbsolutePath();
-              //label.setIcon(ResizeImage(path));
-          }
-           //if the user click on save in Jfilechooser
-
-
-          else if(result == JFileChooser.CANCEL_OPTION){
-                                    System.out.println("No File Select");
-
-          }
-        }
-    });
         
+       
+		
+	
 
         title = new JLabel("Inscription"); 
         title.setFont(new Font("Arial", Font.PLAIN, 30)); 
@@ -267,8 +247,27 @@ public class FormProj extends JFrame implements ActionListener{
         resadd.setLocation(580, 175); 
         resadd.setLineWrap(true); 
         c.add(resadd); 
-  
-        setVisible(true); 
+  // sets 500 width and 600 height 
+        c.setSize(900, 700); 
+          
+        // uses no layout managers 
+        c.setLayout(null); 
+          
+        // makes the frame visible 
+        c.setVisible(true); 
+        //f.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		f.getContentPane().add(Button);
+		
+		Button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				f.dispose();
+			}
+		});
+		f.setSize(600,800);
+		f.setVisible(false);
+                
+                
+        // ON F WORK ON THE CARD STUDENT
     }
     
     public static void main(String[] args) {
@@ -281,7 +280,9 @@ public class FormProj extends JFrame implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-if (e.getSource() == sub) { 
+        c.setVisible(false);
+        f.setVisible(true);
+        /*if (e.getSource() == sub) { 
             if (term.isSelected()) { 
                 String data1; 
         Random num = new Random();
@@ -330,7 +331,7 @@ if (e.getSource() == sub) {
             month.setSelectedIndex(0); 
             year.setSelectedIndex(0); 
             resadd.setText(def); 
-        }   
+        }   */
     }
     
 }
