@@ -6,7 +6,12 @@ import java.io.File;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.*; 
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JFileChooser;
@@ -16,7 +21,7 @@ public class FormProj extends JFrame implements ActionListener{
    // Components of the Form 
     ImageIcon icon;
      JFrame c; 
-     	private JFrame f = new JFrame("Login");
+     	private JFrame f = new JFrame("Student Card");
     JFileChooser chooser;
 
      JLabel title; 
@@ -28,8 +33,10 @@ public class FormProj extends JFrame implements ActionListener{
      JLabel matricule; 
      JLabel randomNumber; 
      JTextField YEAR; 
+     JButton save;
 JFileChooser j = new JFileChooser(new File("C:\\Users\\Dams\\")); 
 
+JLabel LOGO;
      JRadioButton male; 
      JRadioButton female; 
      ButtonGroup gengp; 
@@ -38,6 +45,7 @@ JFileChooser j = new JFileChooser(new File("C:\\Users\\Dams\\"));
      JComboBox month; 
      JComboBox year; 
      JLabel add; 
+     JLabel MATRICULE;
           JLabel matriculeNum; 
      JLabel YearOfStudies;
      JTextField tadd; 
@@ -46,7 +54,6 @@ JFileChooser j = new JFileChooser(new File("C:\\Users\\Dams\\"));
      JButton reset; 
      JTextArea tout; 
      JLabel res; 
-     JTextArea resadd; 
      JLabel DDN;
      JLabel NAME;
      JLabel SURNAME;
@@ -86,7 +93,7 @@ JFileChooser j = new JFileChooser(new File("C:\\Users\\Dams\\"));
     {
         
         // HNA NDIR BUTTONA EYA ON PRESS NLANCé HAD FONCTION
-                c=new JFrame("first way"); 
+                c=new JFrame("FORM"); 
         c.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
 
          
@@ -100,10 +107,13 @@ JFileChooser j = new JFileChooser(new File("C:\\Users\\Dams\\"));
         Button = new JButton("Browse");
         Button.setBounds(100,20,100,20);
         c.add(Button); 
-        
+                String z ="C:\\Users\\Dams\\Desktop\\Ihm Project\\logo.png";
+
         img = new JLabel();
                 img.setBounds(100,40,100,100);
         c.add(img); 
+
+        
 
        Button.addActionListener(new ActionListener() {
 
@@ -145,7 +155,6 @@ JFileChooser j = new JFileChooser(new File("C:\\Users\\Dams\\"));
         matriculeNum.setSize(200, 20); 
         matriculeNum.setLocation(200, 150); 
         c.add(matriculeNum); 
-        
         matricule = new JLabel("Matricule :"); 
         matricule.setFont(new Font("Arial", Font.PLAIN, 20)); 
         matricule.setSize(100, 20); 
@@ -250,7 +259,10 @@ JFileChooser j = new JFileChooser(new File("C:\\Users\\Dams\\"));
         YEAR.setSize(150, 20); 
         YEAR.setLocation(200, 450); 
         c.add(YEAR); 
-        
+        LOGO = new JLabel();
+        LOGO.setBounds(300,200,100,100);
+        f.add(LOGO);
+        LOGO.setIcon(ResizeImage(z));
   
         term = new JCheckBox("Accepter les conditions"); 
         term.setFont(new Font("Arial", Font.PLAIN, 15)); 
@@ -278,7 +290,7 @@ JFileChooser j = new JFileChooser(new File("C:\\Users\\Dams\\"));
         res = new JLabel(""); 
         res.setFont(new Font("Arial", Font.PLAIN, 20)); 
         res.setSize(500, 25); 
-        res.setLocation(100, 500); 
+        res.setLocation(150, 600); 
         c.add(res); 
   
         
@@ -295,9 +307,16 @@ JFileChooser j = new JFileChooser(new File("C:\\Users\\Dams\\"));
 		
         f.setSize(450,350);
         f.setLayout(null);
-        f.setVisible(true);
+        f.setVisible(false);
         f.setBackground(Color.RED);
         
+        
+        MATRICULE = new JLabel("Matricule :"); 
+        MATRICULE.setFont(new Font("Arial", Font.PLAIN, 20)); 
+        MATRICULE.setSize(300, 30); 
+        MATRICULE.setLocation(50, 20); 
+        MATRICULE.setOpaque(true);
+        f.add(MATRICULE); 
         NAME = new JLabel("Nom : "+no); 
         NAME.setFont(new Font("Arial", Font.PLAIN, 20)); 
         NAME.setSize(200, 20);
@@ -335,8 +354,33 @@ JFileChooser j = new JFileChooser(new File("C:\\Users\\Dams\\"));
         f.add(DDN);
         
         IMAGE = new JLabel();
-        IMAGE.setBounds(300,40,100,100);
+        IMAGE.setBounds(300,80,100,100);
         f.add(IMAGE); 
+        
+        save = new JButton("SAVE"); 
+        save.setFont(new Font("Arial", Font.PLAIN, 15)); 
+        save.setSize(100, 30); 
+        save.setLocation(50, 260); 
+        save.addActionListener(new ActionListener() {
+
+        public void actionPerformed(ActionEvent e) {
+ try
+        {
+            BufferedImage image = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
+            Graphics2D graphics2D = image.createGraphics();
+            f.paint(graphics2D);
+            ImageIO.write(image,"jpeg", new File("C:\\Users\\Dams\\Desktop\\Ihm Project\\test.jpeg"));
+        }
+        catch(Exception exception)
+        {
+            //code
+        }        }});
+        f.add(save);
+                
+        		
+    
+        c.setResizable(false);
+        f.setResizable(false);
         // ON F WORK ON THE CARD STUDENT
     }
     public ImageIcon ResizeImage(String ImagePath)
@@ -357,8 +401,13 @@ JFileChooser j = new JFileChooser(new File("C:\\Users\\Dams\\"));
 
     @Override
     public void actionPerformed(ActionEvent e) {
-                f.setVisible(false);
-
+               
+        if (e.getSource() == sub) { 
+            if (term.isSelected()) { 
+        Random num = new Random();
+        String k = String.valueOf(Math.abs(num.nextInt()%1000000));
+        matriculeNum.setText(k);
+        MATRICULE.setText("Matricule : "+k);
         f.setVisible(true);
         NAME.setText("Nom : "+tname.getText());
         SURNAME.setText("Prénom : "+tmno.getText());
@@ -374,40 +423,11 @@ JFileChooser j = new JFileChooser(new File("C:\\Users\\Dams\\"));
                       + "\n" );
         FACULTY.setText("Faculté : " + tadd.getText());
         ANNEE.setText("Année : "+ YEAR.getText());
-        if (e.getSource() == sub) { 
-            if (term.isSelected()) { 
-                String data1; 
-        Random num = new Random();
-        String k = String.valueOf(Math.abs(num.nextInt()%1000000));
-        matriculeNum.setText(k);
-                String data 
-                    = "Name : "
-                      + tname.getText() + "\n"
-                      + "Mobile : "
-                      + tmno.getText() + "\n"; 
-                if (male.isSelected()) 
-                    data1 = "Gender : Male"
-                            + "\n"; 
-                else
-                    data1 = "Gender : Female"
-                            + "\n"; 
-                String data2 
-                    = "Date De Naissance: "
-                      + (String)date.getSelectedItem() 
-                      + "/" + (String)month.getSelectedItem() 
-                      + "/" + (String)year.getSelectedItem() 
-                      + "\n"; 
-  
-                String data3 = "Address : " + tadd.getText(); 
-                tout.setText(data + data1 + data2 + data3); 
-                tout.setEditable(false); 
-                res.setText("Registration Successfully.."); 
+                res.setText("Inscription Finis"); 
             } 
             else { 
                 tout.setText(""); 
-                resadd.setText(""); 
-                res.setText("Please accept the"
-                            + " terms & conditions.."); 
+                res.setText("S'il vous plat accepter les conditions"); 
             }
         } 
   
@@ -422,7 +442,6 @@ JFileChooser j = new JFileChooser(new File("C:\\Users\\Dams\\"));
             date.setSelectedIndex(0); 
             month.setSelectedIndex(0); 
             year.setSelectedIndex(0); 
-            resadd.setText(def); 
         }   
     }
     
